@@ -7,15 +7,15 @@ module Promotions
         @available_promotions = available_promotions
       end
 
-      def eligible?(promotion, promotable, total:)
-        validator.eligible?(promotion, promotable, total: total)
+      def eligible?(promotion, promotable, total: nil)
+        validator(promotable).eligible?(promotion, promotable, total: total)
       end
 
       private
 
       attr_reader :available_promotions
 
-      def validator
+      def validator(promotable)
         klass = if promotable.is_a?(Checkout::Item)
           Promotions::Eligibility::ItemValidator
         elsif promotable.is_a?(Checkout::Cart)

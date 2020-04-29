@@ -2,7 +2,7 @@
 
 module Promotions
   module Eligibility
-    class CartValidator
+    class ItemValidator
       def initialize(available_promotions)
         @available_promotions = available_promotions
       end
