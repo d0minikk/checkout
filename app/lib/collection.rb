@@ -1,20 +1,25 @@
 # frozen_string_literal: true
 
 module Collection
-  included do
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
+  module ClassMethods
     @@collection = []
     @@last_id = 0
 
-    def self.all
+    def all
       @@collection
     end
 
-    def self.find(id)
+    def find(id)
       self.all.select { |p| p.id == id }.first
     end
+  end
 
-    def initialize(args)
-      self.class.all << self
-    end
+  def initialize(args={})
+    super(args)
+    self.class.all << self
   end
 end
