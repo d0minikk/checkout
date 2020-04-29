@@ -6,11 +6,11 @@ module Collection
   end
 
   module ClassMethods
-    @@collection = []
-    @@last_id = 0
+    @@collection = {}
 
     def all
-      @@collection
+      @@collection[self.to_s] = [] if @@collection[self.to_s].nil?
+      @@collection[self.to_s]
     end
 
     def find(id)
