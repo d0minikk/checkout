@@ -41,7 +41,7 @@ module Checkout
       cart.items.map do |item|
         available_promotions.each do |promotion|
           if validator.eligible?(promotion, item)
-            # apply action calculation
+            Promotions::Adjustments::ItemAdjustment.new(item, promotion.action).calculate
           end
         end
       end
@@ -54,7 +54,7 @@ module Checkout
 
       available_promotions.each do |promotion|
         if validator.eligible?(promotion, cart, total: items_adjustment)
-          # apply action calculation
+          Promotions::Adjustments::CartAdjustment.new(cart, promotion.action, total: items_adjustment).calculate
         end
       end
 
