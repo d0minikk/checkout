@@ -11,26 +11,26 @@ RSpec.describe CheckoutService do
   subject { described_class.new(promotions) }
 
   it 'order is discounted' do
-    subject.scan(product_1)
-    subject.scan(product_2)
-    subject.scan(product_3)
+    subject.scan(product_1.id)
+    subject.scan(product_2.id)
+    subject.scan(product_3.id)
 
     expect(subject.total).to eq(66.78)
   end
 
   it 'product is discounted' do
-    subject.scan(product_1)
-    subject.scan(product_3)
-    subject.scan(product_1)
+    subject.scan(product_1.id)
+    subject.scan(product_3.id)
+    subject.scan(product_1.id)
 
     expect(subject.total).to eq(36.95)
   end
 
   it 'product and order is discounted' do
-    subject.scan(product_1)
-    subject.scan(product_2)
-    subject.scan(product_1)
-    subject.scan(product_3)
+    subject.scan(product_1.id)
+    subject.scan(product_2.id)
+    subject.scan(product_1.id)
+    subject.scan(product_3.id)
 
     expect(subject.total).to eq(73.76)
   end
