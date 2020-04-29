@@ -19,11 +19,11 @@ module Checkout
     attr_reader :cart, :available_promotions, :items_adjustment, :order_adjustment
 
     def calculate_total
-      @total = total_without_adjustment - total_adjustment
+      @total = (total_without_adjustment - total_adjustment) / 100
     end
 
     def total_without_adjustment
-      cart.items.map(&:price_cents).sum / 100
+      cart.items.map(&:price_cents).sum
     end
 
     def total_adjustment
@@ -41,7 +41,7 @@ module Checkout
       cart.items.map do |item|
         available_promotions.each do |promotion|
           if validator.eligible?(promotion, item)
-            Promotions::Adjustments::ItemAdjustment.new(item, promotion.action).calculate
+            accumulator += Promotions::Adjustments::ItemAdjustment.new(item, promotion.action).calculate
           end
         end
       end
@@ -53,8 +53,12 @@ module Checkout
       accumulator = 0
 
       available_promotions.each do |promotion|
-        if validator.eligible?(promotion, cart, total: items_adjustment)
-          Promotions::Adjustments::CartAdjustment.new(cart, promotion.action, total: items_adjustment).calculate
+        if validator.eligible?(promotion, cart, total: total_without_adjustment)
+          accumulator += Promotions::Adjustments::CartAdjustment.new(
+            cart,
+            promotion.action,
+            total: total_without_adjustment
+          ).calculate
         end
       end
 

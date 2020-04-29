@@ -22,7 +22,7 @@ class Seeds
 
   def generate_promotions
     action1 = Promotions::Action.new({
-      discount_value: 10,
+      discount_value: 0.1,
       discount_value_type: 'percent'
     })
 
