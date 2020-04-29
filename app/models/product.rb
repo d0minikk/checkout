@@ -5,7 +5,7 @@ class Product < BaseModel
 
   attr_reader :id, :name, :price_cents, :price_currency
 
-  alias :currency, :price_currency
+  alias_method :currency, :price_currency
 
   def price
     price_cents * 100

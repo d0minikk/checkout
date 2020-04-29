@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-class Checkout::Item < BaseModel
-  attr_reader :product_code, :amount
+module Checkout
+  class Item < BaseModel
+    attr_accessor :product_code, :amount
+  end
 end

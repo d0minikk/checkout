@@ -3,5 +3,5 @@
 class Promotion < BaseModel
   include Collection
 
-  attr_reader :name, :rule, :action
+  attr_reader :id, :name, :rule, :action
 end

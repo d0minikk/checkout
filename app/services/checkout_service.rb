@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class Checkout
-  attr_reader :cart, :promotions
+class CheckoutService
+  attr_reader :cart, :available_promotions
 
   def initialize(available_promotions)
     @available_promotions = available_promotions
@@ -11,8 +11,8 @@ class Checkout
     add_to_cart(product_code)
   end
 
-  def total(calculator = Checkout::Calculator)
-    calculator.new(cart, available_promotions)
+  def total(calculator_class = Checkout::Calculator)
+    calculator = calculator_class.new(cart, available_promotions)
     calculator.call
     calculator.total
   end
@@ -28,6 +28,6 @@ class Checkout
   end
 
   def cart
-    @cart ||= Checkout::Cart.new
+    @cart ||= Checkout::Cart.new(items: [])
   end
 end
