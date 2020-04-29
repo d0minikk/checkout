@@ -20,10 +20,17 @@ class CheckoutService
   private
 
   def add_to_cart(product_code)
+    product = Product.find(product_code)
+
     if existing_item = cart.items.select { |item| item.product_code == product_code }.first
       existing_item.amount += 1
     else
-      cart.items << Checkout::Item.new(product_code: product_code, amount: 1)
+      cart.items << Checkout::Item.new(
+        product_code: product_code,
+        amount: 1,
+        price_cents: product.price_cents,
+        price_currency: product.price_currency,
+      )
     end
   end
 
